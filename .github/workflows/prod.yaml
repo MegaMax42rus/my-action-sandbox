@@ -1,0 +1,23 @@
+---
+name: Deploy Prod 
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Docker image tag'
+        required: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify about successful testing
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          disable_web_page_preview: true
+          disable_notification: true
+          args: |
+            Deploy Prod (${{ github.actor }})
+            ghcr.io/coldstack-network/filenode:${{ github.event.inputs.tag }}
