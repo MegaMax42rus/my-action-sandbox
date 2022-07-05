@@ -19,5 +19,5 @@ jobs:
           disable_web_page_preview: true
           disable_notification: true
           args: |
-            Deploy Prod (${{ github.actor }})
+            🟡 Deploy Prod (${{ github.actor }})
             ghcr.io/coldstack-network/filenode:${{ github.event.inputs.tag }}
