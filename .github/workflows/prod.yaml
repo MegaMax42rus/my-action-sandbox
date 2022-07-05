@@ -35,3 +35,16 @@ jobs:
             🟡 Deploy Prod
             User: *${{ github.actor }}*
             Branch: ${{ github.ref_name }}
+
+      - name: Notify about deploy
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          disable_web_page_preview: true
+          disable_notification: true
+          args: |
+            🟡 Deploy Prod 2
+            User: *${{ github.actor }}*
+            Branch: ${{ github.ref_name }}
