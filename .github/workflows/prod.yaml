@@ -20,5 +20,5 @@ jobs:
           disable_notification: true
           args: |
             🟡 Deploy Prod
-            User: ${{ github.actor }}
+            User: *${{ github.actor }}*
             Container image: ghcr.io/coldstack-network/filenode:${{ github.event.inputs.tag }}
