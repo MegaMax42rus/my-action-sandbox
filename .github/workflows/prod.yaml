@@ -21,6 +21,7 @@ jobs:
           args: |
             🟡 Deploy Prod
             User: *${{ github.actor }}*
+            Repo: ${{ github.repository }}
             Container image: ghcr.io/coldstack-network/filenode:${{ github.event.inputs.tag }}
 
       - name: Notify about deploy
