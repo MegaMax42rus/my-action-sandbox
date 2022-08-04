@@ -13,5 +13,7 @@ jobs:
     steps:
       - name: Git
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Incriment version
         uses: ./.github/actions/version-incriment-action
