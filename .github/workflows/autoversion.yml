@@ -48,5 +48,3 @@ jobs:
           push: true
           tags: ${{ steps.string.outputs.lowercase }}
           labels: ${{ steps.meta.outputs.labels }}
-
-          #pushing ghcr.io/megamax42rus/my-action-sandbox:master with docker
