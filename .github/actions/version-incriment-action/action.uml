@@ -1,0 +1,5 @@
+name: 'Version Incriment Action'
+description: 'Incriment minor version'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
