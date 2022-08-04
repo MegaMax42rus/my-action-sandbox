@@ -41,5 +41,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ steps.version.outputs.tag }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
+
+          #pushing ghcr.io/megamax42rus/my-action-sandbox:master with docker
