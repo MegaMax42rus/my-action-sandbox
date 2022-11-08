@@ -1,0 +1,88 @@
+name: Deploy Prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Deploy from'
+        required: true
+        default: 'Branch head' 
+        type: choice
+        options:
+        - Branch head
+        - Release tag
+      tag:
+        description: 'Release version tag'
+        #required: true
+
+jobs:
+  build:
+    if: inputs.mode == 'Branch head'
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Git
+        uses: actions/checkout@v2
+
+      #- name: Install Node 14
+      #  uses: actions/setup-node@v2
+      #  with:
+      #    node-version: "14"
+      #    cache: "yarn"
+
+      #- name: Install dependencies
+      #  run: yarn
+
+      #- name: Build
+      #  run: yarn run build
+      #  env:
+      #    CI: false
+      #    REACT_APP_ENV: production
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: petabox-frontend-${{ github.ref_name }}-${{ github.sha }}-build
+          path: build/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        if: inputs.mode == 'Branch head'
+        uses: actions/download-artifact@v2
+        with:
+          name: petabox-frontend-${{ github.ref_name }}-${{ github.sha }}-build
+          path: build
+
+      - name: Download build ZIP
+        if: inputs.mode == 'Release tag'
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          repo: ${{ github.action_repository }}
+          version: tags/${{ inputs.tag }}
+          file: 'build.zip'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract ZIP
+        if: inputs.mode == 'Release tag'
+        run: unzip build.zip
+
+      - name: Git rsync-action
+        uses: actions/checkout@v3
+        with:
+          repository: ColdStack-Network/rsync-action
+          ref: v1
+          ssh-key: ${{ secrets.DEPLOY_GITHUB_RSYNC_ACTION }}
+          ssh-strict: false
+          path: .github/actions/rsync-action
+
+      - name: Sync server dir with build
+        uses: ./.github/actions/rsync-action
+        with:
+          hosts: ${{ secrets.DEPLOY_PROD_HOST }}
+          default_username: ${{ secrets.DEPLOY_PROD_USER }}
+          ssh_key: ${{ secrets.DEPLOY_PROD_SSH_KEY }}
+          src_dir: build/
+          dst_dir: /opt/app/petabox-frontend/
