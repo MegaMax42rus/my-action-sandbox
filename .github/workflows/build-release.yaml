@@ -6,9 +6,12 @@ on:
     inputs:
       tag:
         description: 'Docker image tag'
+  push:
+    tags:
+    - '*'
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Git
