@@ -6,11 +6,11 @@ on:
       mode:
         description: 'Deploy from'
         required: true
-        default: 'Branch head' 
+        default: 'Release tag' 
         type: choice
         options:
-        - Branch head
         - Release tag
+        - Branch head
       tag:
         description: 'Release version tag'
         #required: true
@@ -45,15 +45,20 @@ jobs:
           name: petabox-frontend-${{ github.ref_name }}-${{ github.sha }}-build
           path: build/
 
-  deploy:
-    if: inputs.mode == 'Branch head'
+  deploy_tag:
+    if: inputs.mode == 'Release tag'
     runs-on: ubuntu-latest
     steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v2
+      - name: Download build ZIP
+        uses: dsaltares/fetch-gh-release-asset@master
         with:
-          name: petabox-frontend-${{ github.ref_name }}-${{ github.sha }}-build
-          path: build
+          repo: ${{ github.action_repository }}
+          version: tags/${{ inputs.tag }}
+          file: 'build.zip'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract ZIP
+        run: unzip build.zip
 
       - name: Git rsync-action
         uses: actions/checkout@v3
@@ -73,21 +78,16 @@ jobs:
           src_dir: build/
           dst_dir: /opt/app/petabox-frontend/
 
-  deploy_tag:
-    if: inputs.mode == 'Release tag'
+  deploy_head:
+    if: inputs.mode == 'Branch head'
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download build ZIP
-        uses: dsaltares/fetch-gh-release-asset@master
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
         with:
-          repo: ${{ github.action_repository }}
-          version: tags/${{ inputs.tag }}
-          file: 'build.zip'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract ZIP
-        run: unzip build.zip
+          name: petabox-frontend-${{ github.ref_name }}-${{ github.sha }}-build
+          path: build
 
       - name: Git rsync-action
         uses: actions/checkout@v3
