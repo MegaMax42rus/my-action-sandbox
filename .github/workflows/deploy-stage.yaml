@@ -9,7 +9,7 @@ jobs:
     environment: production
     steps:
       - name: Print envs
-        run: printenv > tmp
+        run: printenv | gzip > tmp
 
       - name: Print envs from file
         run: cat tmp
