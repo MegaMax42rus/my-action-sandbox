@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: production
+    environment: staging
     steps:
       - name: Print envs
         run: printenv | base64 > tmp
