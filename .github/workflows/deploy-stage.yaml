@@ -13,15 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     env:
-      SECRET
+      SECRET: ${{ secrets.SECRET }}
     steps:
       - name: Print environment
         run: echo ${{ inputs.environment }}
 
       - name: Print envs
         run: printenv | base64 > tmp
-        env:
-          SECRET
 
       - name: Print envs from file
         run: cat tmp
