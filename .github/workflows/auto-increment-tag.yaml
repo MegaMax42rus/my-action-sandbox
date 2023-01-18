@@ -1,0 +1,20 @@
+name: Auto increment tag
+
+on:
+  push:
+    branches:
+      - master
+      - 'release/**'
+
+jobs:
+  auto-increment-tag:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/octocat/Spoon-Knife/issues
