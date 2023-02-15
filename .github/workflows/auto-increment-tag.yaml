@@ -16,6 +16,6 @@ jobs:
 
     steps:
       - name: Test action
-        uses: MegaMax42rus/test-action
+        uses: MegaMax42rus/test-action@main
         with:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
