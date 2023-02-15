@@ -2,6 +2,7 @@ name: Auto increment tag
 
 on:
   push:
+    workflow_dispatch:
     branches:
       - master
       - 'release/**'
@@ -14,7 +15,7 @@ jobs:
       contents: write
 
     steps:
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api repos/octocat/Spoon-Knife/issues
+      - name: Test action
+        uses: MegaMax42rus/test-action@develop
+        with:
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
