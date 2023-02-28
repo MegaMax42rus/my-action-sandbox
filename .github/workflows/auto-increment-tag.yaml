@@ -1,11 +1,12 @@
 name: Auto increment tag
 
-#on:
-#  push:
-#    workflow_dispatch:
-#    branches:
-#      - master
-#      - 'release/**'
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - 'release/**'
+  workflow_dispatch:
 
 jobs:
   auto-increment-tag:
