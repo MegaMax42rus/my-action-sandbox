@@ -1,7 +1,6 @@
 name: Auto increment tag
 
 on:
-  pull_request:
   push:
     branches:
       - master
