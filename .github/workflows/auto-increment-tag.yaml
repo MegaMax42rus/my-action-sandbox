@@ -3,9 +3,8 @@ name: Auto increment tag
 on:
   push:
     branches:
-      - master
-      - 'release/**'
-  workflow_dispatch:
+      - main
+      - 'releases/**'
 
 jobs:
   auto-increment-tag:
@@ -15,7 +14,7 @@ jobs:
       contents: write
 
     steps:
-      - name: Test action
-        uses: MegaMax42rus/test-action@main
+      - name: Auto increment tag
+        uses: MegaMax42rus/autotaging-action@v1
         with:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
