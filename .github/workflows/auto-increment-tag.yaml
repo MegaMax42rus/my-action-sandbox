@@ -17,4 +17,4 @@ jobs:
       - name: Auto increment tag
         uses: MegaMax42rus/autotaging-action@v1
         with:
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          gh_token: ${{ secrets.PAT }}
