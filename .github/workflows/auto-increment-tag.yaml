@@ -29,5 +29,9 @@ jobs:
       contents: read
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        ref: main
+
       - name: Publish Docker image
         uses: ./.github/workflows/publish-docker-image.yaml
