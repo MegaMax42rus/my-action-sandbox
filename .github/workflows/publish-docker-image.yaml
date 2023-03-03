@@ -1,8 +1,7 @@
 name: Publish Docker image
 
 on:
-  label:
-    types: [created, deleted]
+  create:
 
 env:
   REGISTRY: ghcr.io
