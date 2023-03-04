@@ -13,6 +13,7 @@ env:
 
 jobs:
   publish-docker:
+    name: Publish Docker image
     runs-on: ubuntu-latest
 
     permissions:
