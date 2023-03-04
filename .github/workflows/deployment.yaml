@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to run tests against'
+        description: 'Environment'
         type: environment
-        required: true
+        default: ${{ github.head_ref }}
 
 jobs:
   deployment:
