@@ -3,13 +3,16 @@ name: Deployment
 on:
   push:
     branches:
-      - main
+      - 'production'
+      - 'staging'
+      - 'development'
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment'
+        description: 'Environment to deployment'
+        required: true
+        default: ${{ github.base_ref }}
         type: environment
-        default: ${{ github.head_ref }}
 
 jobs:
   deployment:
