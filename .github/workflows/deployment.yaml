@@ -16,6 +16,14 @@ on:
         type: environment
 
 jobs:
+  environment-determination:
+    name: Environment determination
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print environments
+        run: 'printenv'
+
   deployment:
     name: Deployment
     runs-on: ubuntu-latest
